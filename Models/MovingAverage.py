@@ -28,3 +28,8 @@ class MovingAverage:
         percentage = round(higher / (higher + lower) * 100)
 
         return (str(percentage) + "%")
+
+
+# Test
+# ma = MovingAverage(50)
+# print(ma.getMABeatsClosePercetage(df))

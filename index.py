@@ -5,6 +5,7 @@ import datetime as dt
 from pandas_datareader import data as pdr
 from Models.Date import Date
 from Models.MovingAverage import MovingAverage
+from Models.EMAManager import EMAManager
 
 yf.pdr_override()
 
@@ -22,7 +23,16 @@ df = pdr.get_data_yahoo(
     dt.datetime.now()
 )
 
-ma = MovingAverage(50)
+emaManager = EMAManager(15, [3, 5, 8, 10, 12, 15, 30, 35, 40, 45, 50, 60])
 
+# Appends each different EMA to the end of our data frame
+for ema in emaManager.Emas:
+    df[emaManager.getDisplay(ema)] = round(
+        df.iloc[:, 4].ewm(span=ema, adjust=False).mean(), 2)
 
-print(ma.getMABeatsClosePercetage(df))
+print(df.tail())
+print(emaManager.getShortCollection())
+print(emaManager.getLongCollection())
+
+# for i in df.index:
+#     cmin = min()
